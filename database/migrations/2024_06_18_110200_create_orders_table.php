@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class)->onDelete('cascade');
-            //$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->string('status')->default('cart');
             $table->decimal('total_amount', 8, 2);
             $table->timestamps();
         });

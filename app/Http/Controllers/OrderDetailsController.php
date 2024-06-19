@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Books;
 use App\Models\OrderDetails;
+use App\Models\Orders;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class OrderDetailsController extends Controller
@@ -12,7 +15,12 @@ class OrderDetailsController extends Controller
      */
     public function index()
     {
-        //
+        $user_id = 1;
+        $orders = Orders::where('user_id', $user_id)->where('status', 'completed')->get();
+
+        return view('orders.index', [
+            'orders' => $orders
+        ]);
     }
 
     /**
@@ -28,15 +36,20 @@ class OrderDetailsController extends Controller
      */
     public function store(Request $request)
     {
+
         //
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(OrderDetails $orderDetails)
+    public function show(OrderDetails $order_id_details)
     {
-        //
+        $orders = OrderDetails::get();
+
+        return view('orders.show-orders', [
+            'showDetail' => $order_id_details
+        ]);
     }
 
     /**

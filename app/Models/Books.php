@@ -24,4 +24,6 @@ class Books extends Model
             ->orWhere('author', 'like', '%'. request('search') . '%');
         }
     }   
+
+   
 }

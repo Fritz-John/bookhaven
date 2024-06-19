@@ -4,7 +4,7 @@
         <div class="hero-text">
             <h1>Perfect place to know what you dont know</h1>
             <p>Read all new knowledge</p>
-            <button>Check our Books!</button>
+            <button onclick="window.location.href='{{ route('shop') }}'">Check our Books!</button>
         </div>
     </section>
 

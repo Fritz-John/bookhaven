@@ -17,8 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Orders::class)->onDelete('cascade');
             $table->foreignIdFor(Books::class)->onDelete('cascade');
-            // $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
-            // $table->foreign('book_id')->references('id')->on('books')->onDelete('cascade');
+         
             $table->integer('quantity');
             $table->decimal('unit_price', 8, 2);
             $table->timestamps();

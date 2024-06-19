@@ -7,6 +7,10 @@
     <ul>
         <li> <a href="{{route('homepage')}} " class="{{ Request::is('/') ? 'active' : '' }}">Home</a></li>
         <li> <a href="{{route('shop')}}" class="{{ Request::is('shop') ? 'active' : '' }}">Shop</a></li>
+        <li> <a href="{{route('cart')}}" class="{{ Request::is('cart') ? 'active' : '' }}">Cart</a></li>
+        <li> <a href="{{route('show-orders')}}" class="{{ Request::is('show-orders') ? 'active' : '' }}">Orders</a></li>
+        <li> <a href="{{route('login')}}" class="{{ Request::is('login') ? 'active' : '' }}" >Log in</a></li>
+
     </ul>
 
 

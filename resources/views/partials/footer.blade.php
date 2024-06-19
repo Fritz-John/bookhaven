@@ -2,9 +2,9 @@
     <div class="footer-container">
         <div class="contact-info">
             <h3>Contact Us</h3>
-            <p>Email: contact@example.com</p>
-            <p>Phone: +1234567890</p>
-            <p>Address: 123 Street, City, Country</p>
+            <p>Email: bookhaven@gmail.com</p>
+            <p>Phone: +63 32323232</p>
+            <p>Address: Manila, Philippines</p>
         </div>
         <div class="social-links">
             <h3>Follow Us</h3>

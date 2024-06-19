@@ -20,9 +20,6 @@ class BooksController extends Controller
 
     public function show_all(Request $request){
 
-       
-  
-
         return view('shop.index',[
             'books' => Books::latest()->filter(request(['category', 'search']))->get()
         ]);
