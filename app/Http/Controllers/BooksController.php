@@ -12,8 +12,20 @@ class BooksController extends Controller
      */
     public function index()
     {
-        
+        return view('books.index',[
+            'books' => Books::all()->take(3)
+        ]);
         //
+    }
+
+    public function show_all(Request $request){
+
+       
+  
+
+        return view('shop.index',[
+            'books' => Books::latest()->filter(request(['category', 'search']))->get()
+        ]);
     }
 
     /**
@@ -35,8 +47,12 @@ class BooksController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Books $books)
+    public function show(Books $book_id)
     {
+        return view('shop.show-book', [
+
+            'book' => $book_id
+        ]);
         //
     }
 
