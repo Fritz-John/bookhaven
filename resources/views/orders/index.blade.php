@@ -6,16 +6,16 @@
 
         <h1>All Orders</h1>
 
-        @foreach ($orders as $orderDetail)
+        @foreach ($orders as $order)
         <div class="order">
             <div class="order-details">
-                <p><strong>Order ID:</strong>#{{$orderDetail->id}}</p>
-                <p><strong>Date:</strong> {{ \Carbon\Carbon::parse($orderDetail->created_at)->format('Y-m-d') }}</p>
-               
-                <p><strong>Total:</strong> Php. {{$orderDetail->total_amount}}</p>
+                <p><strong>Order ID:</strong>#{{$order->id}}</p>
+                <p><strong>Date:</strong> {{ \Carbon\Carbon::parse($order->created_at)->format('Y-m-d') }}</p>
+                <p><strong>Mode of Payment:</strong> {{$order->mode_of_payment}}</p>
+                <p><strong>Total:</strong> Php. {{$order->total_amount}}</p>
             </div>
             <div class="order-actions">
-                <button  onclick="window.location.href='{{ route('show-order',$orderDetail)}}'">View Details</button>
+                <button  onclick="window.location.href='{{ route('show-order',$order)}}'">View Details</button>
             </div>
         </div>
        

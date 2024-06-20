@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(User::class)->onDelete('cascade');
             $table->string('status')->default('cart');
+            $table->string('mode_of_payment')->nullable();
             $table->decimal('total_amount', 8, 2);
             $table->timestamps();
         });

@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Books;
 use App\Models\OrderDetails;
 use App\Models\Orders;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrdersController extends Controller
 {
@@ -30,15 +32,16 @@ class OrdersController extends Controller
      */
     public function store(Request $request)
     {
+
         $request->validate([
             'book_id' => 'required|exists:books,id',
             'quantity' => 'required|integer|min:1',
         ]);
 
         $books = Books::find($request->book_id);
-        
+
         $order = Orders::firstOrCreate(
-            ['user_id' => 1, 'status' => 'cart'],
+            ['user_id' => auth()->id(), 'status' => 'cart'],
             ['total_amount' => 0]
         );
 
@@ -59,64 +62,61 @@ class OrdersController extends Controller
     public function show_cart()
     {
 
-        $cart = Orders::where('user_id', 1)->where('status', 'cart')->first();
+        $cart = Orders::where('user_id', auth()->id())->where('status', 'cart')->first();
 
         if (!$cart) {
             return view('orders.cart', ['items' => []]);
         }
 
-        $items = $cart->orderDetails()->with('book')->get();
+        $items = $cart->orders()->with('book')->get();
 
+        $user_detail = User::find(auth()->id())->first();
 
-        return view('orders.cart', ['items' => $items, 'total_amount' => $cart->total_amount]);
+        return view('orders.cart', [
+            'items' => $items,
+            'total_amount' => $cart->total_amount,
+            'user_detail' =>  $user_detail
+        ]);
     }
 
-    public function checkout()
+    public function checkout(Request $request)
     {
-        $cart = Orders::where('user_id', 1)->where('status', 'cart')->first();
+        $cart = Orders::where('user_id', auth()->id())->where('status', 'cart')->first();
+
 
         if (!$cart) {
             return redirect()->route('cart')->with('error', 'Your cart is empty.');
         }
-
-        foreach ($cart->orderDetails as $orderDetail) {
-            $book = $orderDetail->book;
-            $book->stock_quantity -= $orderDetail->quantity;
+        
+        foreach ($cart->orders as $order) {
+            $book = $order->book;
+            $book->stock_quantity -= $order->quantity;
             $book->save();
         }
 
         $cart->status = 'completed';
+        $cart->mode_of_payment = $request->payment_method;
         $cart->save();
 
         return redirect()->route('cart')->with('success', 'Order placed successfully!');
     }
-    /**
-     * Display the specified resource.
-     */
+    
     public function show(Orders $orders)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Orders $orders)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(Request $request, Orders $orders)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Orders $orders)
     {
         //

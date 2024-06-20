@@ -12,18 +12,26 @@ class Books extends Model
 
     public function scopeFilter($query, array $filters)
     {
-       
-        
-        if($filters['category'] ?? false){
-            $query->where('category', 'like', '%'. request('category') . '%');
-        }
-        if($filters['search'] ?? false){
-            $query->where('title', 'like', '%'. request('search') . '%')
-            ->orWhere('description', 'like', '%'. request('search') . '%')
-            ->orWhere('category', 'like', '%'. request('search') . '%')
-            ->orWhere('author', 'like', '%'. request('search') . '%');
-        }
-    }   
 
-   
+
+        if ($filters['category'] ?? false) {
+            $query->whereHas('categories', function ($query) use ($filters) {
+                $query->where('name', 'like', '%' . $filters['category'] . '%');
+            });
+        }
+
+        if ($filters['search'] ?? false) {
+            $query->where('title', 'like', '%' . $filters['search'] . '%')
+                ->orWhere('description', 'like', '%' . $filters['search'] . '%')
+                ->orWhere('author', 'like', '%' . $filters['search'] . '%')
+                ->orWhereHas('categories', function ($query) use ($filters) {
+                    $query->where('name', 'like', '%' . $filters['search'] . '%');
+                });
+        }
+    }
+
+    public function categories()
+    {
+        return $this->belongsTo(Categories::class, 'categories_id', 'id');
+    }
 }
