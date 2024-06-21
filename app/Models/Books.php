@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\UserActivityLog;
 class Books extends Model
 {
     use HasFactory;
@@ -18,6 +18,11 @@ class Books extends Model
             $query->whereHas('categories', function ($query) use ($filters) {
                 $query->where('name', 'like', '%' . $filters['category'] . '%');
             });
+            UserActivityLog::create([
+                'user_id' => auth()->id(),
+                'activity' => 'Searching',
+                'details' => 'Searching for category: ' . $filters['category'],
+            ]);
         }
 
         if ($filters['search'] ?? false) {
@@ -27,6 +32,12 @@ class Books extends Model
                 ->orWhereHas('categories', function ($query) use ($filters) {
                     $query->where('name', 'like', '%' . $filters['search'] . '%');
                 });
+
+            UserActivityLog::create([
+                'user_id' => auth()->id(),
+                'activity' => 'Searching',
+                'details' => 'Searching for: ' . $filters['search'],
+            ]);
         }
     }
 

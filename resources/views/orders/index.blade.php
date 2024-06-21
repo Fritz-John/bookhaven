@@ -7,6 +7,8 @@
         <h1>All Orders</h1>
 
         @foreach ($orders as $order)
+
+
         <div class="order">
             <div class="order-details">
                 <p><strong>Order ID:</strong>#{{$order->id}}</p>
@@ -15,10 +17,16 @@
                 <p><strong>Total:</strong> Php. {{$order->total_amount}}</p>
             </div>
             <div class="order-actions">
-                <button  onclick="window.location.href='{{ route('show-order',$order)}}'">View Details</button>
+        
+
+                <form action="{{ route('show-order',$order->id)}}" method="GET">
+                    @csrf
+                    <button type="submit">View Details</button>
+                </form>
+
             </div>
         </div>
-       
+
         @endforeach
 
     </div>

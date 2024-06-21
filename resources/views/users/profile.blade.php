@@ -35,11 +35,29 @@
                     </tbody>
                 </table>
             </div>
+
         </div>
         <form action="{{route('logout')}}" method="GET">
             @csrf
             <button type="submit">Log out</button>
         </form>
+        <div class="card-profile">
+            <h2 style="text-align: center">User Activity Logs</h2>
+            <div class="logs-list">
+                @foreach ($logs as $log)
+                <div class="log-item">
+                    @if ($log->user_id == auth()->id())
+                    <p><strong>Activity:</strong> {{ $log->activity }}</p>
+                    <p><strong>Details:</strong> {{ $log->details }}</p>
+                    <p><strong>Created At:</strong> {{ $log->created_at }}</p>
+                    @endif
+
+                    <hr>
+                </div>
+                @endforeach
+            </div>
+        </div>
+
         {{-- <button onclick="window.location.href='{{route('logout')}}'" class="button"></button> --}}
     </div>
 </x-app>

@@ -24,10 +24,11 @@ Route::post('/order' ,[OrdersController::class, 'store'])->name('store-order')->
 
 Route::get('/show-orders' ,[OrderDetailsController::class, 'index' ])->name('show-orders')->middleware('auth');
 
-Route::get('/show-order/{order_id_details}' ,[OrderDetailsController::class, 'show' ])->name('show-order')->middleware('auth');
+Route::get('/show-order/{order_details}' ,[OrderDetailsController::class, 'show_order' ])->name('show-order')->middleware('auth');
 
 Route::post('/cart/checkout', [OrdersController::class, 'checkout'])->name('checkout')->middleware('auth');
 
+Route::delete('/cart/remove/{cart_item}', [OrdersController::class, 'remove_item_cart'])->name('remove')->middleware('auth');
 
 Route::get('/login' ,[UserController::class, 'index' ])->name('login');
 

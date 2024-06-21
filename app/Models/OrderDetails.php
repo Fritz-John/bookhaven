@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class OrderDetails extends Model
 {
@@ -11,8 +12,7 @@ class OrderDetails extends Model
 
     protected $fillable = ['orders_id', 'books_id', 'quantity', 'unit_price'];
 
-
-
+   
 
     public function book()
     {

@@ -2,34 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Books;
-use App\Models\OrderDetails;
-use App\Models\Orders;
 use App\Models\User;
+use App\Models\Books;
+use App\Models\Orders;
+use App\Models\OrderDetails;
 use Illuminate\Http\Request;
+use App\Models\UserActivityLog;
 use Illuminate\Support\Facades\Auth;
 
 class OrdersController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+
+    protected $orderModel;
+
+    public function __construct()
     {
-        //
+        $this->orderModel = new Orders();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
 
@@ -38,25 +28,16 @@ class OrdersController extends Controller
             'quantity' => 'required|integer|min:1',
         ]);
 
-        $books = Books::find($request->book_id);
+        $this->orderModel->addToCart($request->book_id, $request->quantity);
 
-        $order = Orders::firstOrCreate(
-            ['user_id' => auth()->id(), 'status' => 'cart'],
-            ['total_amount' => 0]
-        );
+        return redirect()->route("show", $request->book_id)->with('success', 'Order placed successfully!');
+    }
 
+    public function remove_item_cart(OrderDetails $cart_item)
+    {
+        $this->orderModel->removeToCart($cart_item);
 
-        $orderDetail = new OrderDetails();
-        $orderDetail->orders_id = $order->id;
-        $orderDetail->books_id = $books->id;
-        $orderDetail->quantity = $request->quantity;
-        $orderDetail->unit_price = $books->price;
-        $orderDetail->save();
-
-        $order->total_amount += $request->quantity * $books->price;
-        $order->save();
-
-        return redirect()->route("show", $books->id)->with('success', 'Order placed successfully!');
+        return redirect()->route("cart")->with('success', 'Removed item from cart successfully!');
     }
 
     public function show_cart()
@@ -67,58 +48,18 @@ class OrdersController extends Controller
         if (!$cart) {
             return view('orders.cart', ['items' => []]);
         }
-
-        $items = $cart->orders()->with('book')->get();
-
-        $user_detail = User::find(auth()->id())->first();
-
+        
         return view('orders.cart', [
-            'items' => $items,
+            'items' => $cart->orders()->with('book')->get(),
             'total_amount' => $cart->total_amount,
-            'user_detail' =>  $user_detail
+            'user_detail' =>  auth()->user()
         ]);
     }
 
     public function checkout(Request $request)
     {
-        $cart = Orders::where('user_id', auth()->id())->where('status', 'cart')->first();
-
-
-        if (!$cart) {
-            return redirect()->route('cart')->with('error', 'Your cart is empty.');
-        }
-        
-        foreach ($cart->orders as $order) {
-            $book = $order->book;
-            $book->stock_quantity -= $order->quantity;
-            $book->save();
-        }
-
-        $cart->status = 'completed';
-        $cart->mode_of_payment = $request->payment_method;
-        $cart->save();
+        $this->orderModel->checkOut($request);  
 
         return redirect()->route('cart')->with('success', 'Order placed successfully!');
-    }
-    
-    public function show(Orders $orders)
-    {
-        //
-    }
-
-    public function edit(Orders $orders)
-    {
-        //
-    }
-
-
-    public function update(Request $request, Orders $orders)
-    {
-        //
-    }
-
-    public function destroy(Orders $orders)
-    {
-        //
     }
 }

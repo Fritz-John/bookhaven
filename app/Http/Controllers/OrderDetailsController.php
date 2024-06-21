@@ -10,69 +10,23 @@ use Illuminate\Http\Request;
 
 class OrderDetailsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
-        $user_id = 1;
-        $orders = Orders::where('user_id', $user_id)->where('status', 'completed')->get();
 
         return view('orders.index', [
-            'orders' => $orders
+            'orders' => Orders::where('user_id', auth()->id())->where('status', 'completed')->get()
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function show_order($order_id_details)
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(OrderDetails $order_id_details)
-    {
-        $orders = OrderDetails::get();
-
+        $order = Orders::with('user', 'orders.book')->findOrFail($order_id_details);
+        
         return view('orders.show-orders', [
-            'showDetail' => $order_id_details
+            'showDetail' =>  $order,
+
+
         ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(OrderDetails $orderDetails)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, OrderDetails $orderDetails)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(OrderDetails $orderDetails)
-    {
-        //
     }
 }

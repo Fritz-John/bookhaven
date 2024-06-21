@@ -4,9 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\UserActivityLog;
 
 class UserController extends Controller
 {
+
+    protected $userModel;
+
+    public function __construct()
+    {
+        $this->userModel = new User();
+    }
+
     public function index()
     {
         return view('users.login');
@@ -23,65 +32,49 @@ class UserController extends Controller
      */
     public function store_user(Request $request)
     {
-        $data = $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|confirmed|min:6',
-            'address' => 'required',
-            'phone' => 'required|numeric',
-        ]);
-
-        $data['password'] = bcrypt($data['password']);
-
-
-        $user = User::create($data);
-        //auth()->login($user);
-
+        $this->userModel->storeUser($request);
 
         return redirect()->route('login')->with('message', 'User Created');
     }
 
     public function logout(Request $request)
     {
-        auth()->logout();
 
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        $this->userModel->logout($request);
 
         return redirect('/')->with('message', 'You have beed logout');
     }
 
     public function authenticate(Request $request)
     {
-        $formFields = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => 'required'
+        $check_state = $this->userModel->login($request);
 
-        ]);
-
-        if (auth()->attempt($formFields)) {
-            $request->session()->regenerate();
-
+        if($check_state){
             return redirect('/')->with('message', 'User Login');
+          
+        }else{
+            return redirect()->route('login')->withErrors(['email' => 'Invalid Credentials'])->onlyInput('email');
         }
-
-        return back()->withErrors(['email' => 'Invalid Credentials'])->onlyInput('email');
+           
     }
 
 
     public function profile()
     {
-        $user = User::find(auth()->id())->first();
+        $user = User::find(auth()->id());
+
+        $logs = UserActivityLog::where('user_id', auth()->id())->latest()->get();
 
         return view('users.profile', [
             'users' => $user,
+            'logs' =>  $logs
         ]);
     }
 
     public function edit_profile()
     {
 
-        $user = User::find(auth()->id())->first();
+        $user = User::find(auth()->id());
 
         return view('users.edit-profile', [
             'users' => $user,
@@ -91,7 +84,7 @@ class UserController extends Controller
     public function update_profile(Request $request)
     {
 
-        $user = User::find(auth()->id())->first();
+        $user = User::find(auth()->id());
 
         $data = $request->validate([
             'name' => 'required',

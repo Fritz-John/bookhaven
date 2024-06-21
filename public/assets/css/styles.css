@@ -690,7 +690,17 @@ dialog img {
 
 
 
+.logs-list {
+   
+    text-align: left;
+    max-height: 400px;
+    overflow-y: auto;
+}
 
+.log-item {
+  
+    margin-bottom: 10px; 
+}
 
 
 /* Search bar */
