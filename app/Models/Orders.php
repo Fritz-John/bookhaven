@@ -25,16 +25,26 @@ class Orders extends Model
             ->where('books_id', $books->id)
             ->first();
 
-        if ($orderDetail) {
-            $orderDetail->quantity += $quantity;
-            $orderDetail->save();
+
+        if ($quantity > $books->stock_quantity) {
+            return false;
         } else {
-            $orderDetail = new OrderDetails();
-            $orderDetail->orders_id = $order->id;
-            $orderDetail->books_id = $books->id;
-            $orderDetail->quantity = $quantity;
-            $orderDetail->unit_price = $books->price;
-            $orderDetail->save();
+            if ($orderDetail) {
+                $cartQuantityCheck = OrderDetails::where('books_id', $books->id)->first();
+                if ($books->stock_quantity > $cartQuantityCheck->quantity) {
+                    $orderDetail->quantity += $quantity;
+                    $orderDetail->save();
+                } else {
+                    return false;
+                }
+            } else {
+                $orderDetail = new OrderDetails();
+                $orderDetail->orders_id = $order->id;
+                $orderDetail->books_id = $books->id;
+                $orderDetail->quantity = $quantity;
+                $orderDetail->unit_price = $books->price;
+                $orderDetail->save();
+            }
         }
 
         $order->total_amount += $quantity * $books->price;
@@ -45,13 +55,13 @@ class Orders extends Model
             'activity' => 'Placing an item to cart',
             'details' => 'Added to cart ' . $books->title,
         ]);
+
+        return true;
     }
 
     public function removeToCart($cart_item)
     {
         $order = Orders::find($cart_item->orders_id);
-
-
 
         $orderDetailsWithBooks = $order->orders()->with('book')->get();
 

@@ -28,9 +28,15 @@ class OrdersController extends Controller
             'quantity' => 'required|integer|min:1',
         ]);
 
-        $this->orderModel->addToCart($request->book_id, $request->quantity);
+        $check_status = $this->orderModel->addToCart($request->book_id, $request->quantity);
 
-        return redirect()->route("show", $request->book_id)->with('success', 'Order placed successfully!');
+        if($check_status){
+            return redirect()->route("show", $request->book_id)->with('success', 'Order placed successfully!');
+        }else{
+            return redirect()->route("show", $request->book_id)->with('error', 'Quantity should not be higher than the stocks!');
+        }
+
+       
     }
 
     public function remove_item_cart(OrderDetails $cart_item)

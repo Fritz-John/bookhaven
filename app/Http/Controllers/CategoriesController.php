@@ -10,56 +10,43 @@ class CategoriesController extends Controller
     /**
      * Display a listing of the resource.
      */
+    protected $categoriesModel;
+
+    public function __construct()
+    {
+        $this->categoriesModel = new Categories();
+    }
     public function index()
     {
-        //
+        return view('categories.index', [
+            'categories' => Categories::latest()->get()
+        ]);
+     
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+
+    public function create_category()
     {
-        //
+        return view('categories.create');
+        
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $this->categoriesModel->store_category($request);
+
+        return redirect()->route('create-category')->with('success', 'Added new category');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Categories $categories)
+    public function remove_category($category_id)
     {
-        //
+       $check_status = $this->categoriesModel->delete_category($category_id);
+        if($check_status){
+            return redirect()->route('all-categories')->with('success', 'Deleted category');
+        }else{
+            return redirect()->route('all-categories')->with('error', 'Something went wrong!');
+        }
+      
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Categories $categories)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Categories $categories)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Categories $categories)
-    {
-        //
-    }
 }

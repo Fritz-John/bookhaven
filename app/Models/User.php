@@ -114,6 +114,35 @@ class User extends Authenticatable
         return false;
     }
 
+    public function update_profile($request)
+    {
+        $user = User::find(auth()->id());
+
+        $data = $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'address' => 'required',
+            'phone' => 'required|numeric',
+            'password' => 'nullable|confirmed|min:6',
+        ]);
+
+        if (isset($data['password'])) {
+            $data['password'] = bcrypt($data['password']);
+        } else {
+            unset($data['password']);
+        }
+
+
+
+        $user->update($data);
+
+        UserActivityLog::create([
+            'user_id' => auth()->id(),
+            'activity' => 'Updated profile',
+            'details' => 'Updated profile named as ' . $user->name,
+        ]);
+    }
+
     public function orders()
     {
         return $this->hasMany(Orders::class);

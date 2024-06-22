@@ -29,6 +29,8 @@ body {
 
 /* Navbar */
 
+
+
 nav {
     background-color: rgba(44, 58, 26, 0.562);
     backdrop-filter: blur(10px);
@@ -89,6 +91,55 @@ nav a:hover {
     display: none;
 }
 
+/* styles select navbar dropdown */
+.select-wrapper {
+    position: relative;
+
+}
+
+.select-wrapper select {
+    text-align: center;
+    justify-content: center;
+    background-color: rgba(44, 58, 26, 0);
+    color: white;
+    font-size: 17px;
+    padding: 7px 13px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 200px;
+    outline: none;
+    transition: all 0.3s ease-in;
+}
+
+.select-wrapper select::after {
+    content: '\25BE';
+    font-size: 16px;
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+
+}
+
+.select-wrapper select.active,
+.select-wrapper select:hover,
+.select-wrapper select:focus {
+    background-color: rgba(22, 53, 24, 0.781);
+}
+
+.select-wrapper select option {
+    background-color: rgba(44, 58, 26, 0.562);
+    color: white;
+    font-size: 17px;
+}
+
+.select-wrapper select option:checked {
+    background-color: rgba(22, 53, 24, 0.781);
+    color: #ffffff;
+}
+
+
 /* Hero Section */
 
 .masthead {
@@ -106,7 +157,7 @@ nav a:hover {
 
 .masthead img {
     width: 100%;
-    height: 500px;
+    height: 700px;
 }
 
 .hero-text {
@@ -204,7 +255,6 @@ button:disabled {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     background-color: rgba(255, 255, 255, 0.842);
     backdrop-filter: blur(10px);
-    /* Adding a subtle shadow for depth */
 }
 
 .order-detail-container h1 {
@@ -241,15 +291,26 @@ button:disabled {
 
 .actions {
     text-align: center;
-    /* Center aligning the button */
 }
 
 
 /* Carousel Section */
 
+.carousel {
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+    max-width: 800px;
+    height: 500px;
+
+    margin: 0 auto;
+}
+
 .carousel-container {
     text-align: center;
     margin-top: 50px;
+
+    height: auto;
 }
 
 .carousel-container h1 {
@@ -257,27 +318,26 @@ button:disabled {
     margin-bottom: 20px;
 }
 
-.carousel {
-    display: flex;
-    overflow: hidden;
-    width: 100%;
-    max-width: 800px;
-
-    margin: 0 auto;
-
-}
-
 .carousel-item {
     flex: 0 0 auto;
     width: 100%;
+    height: 600px;
     transition: transform 0.5s ease;
     position: relative;
     overflow: hidden;
 }
 
+.carousel-image-container {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
 .carousel-item img {
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
 }
 
 .book-details {
@@ -292,12 +352,12 @@ button:disabled {
     padding: 0;
     box-sizing: border-box;
     transition: height 0.5s ease, padding 0.5s ease;
-
+    overflow: hidden;
 
 }
 
 .carousel-item:hover .book-details {
-    height: 250px;
+    height: 400px;
     padding: 10px;
 
 
@@ -337,17 +397,42 @@ button:disabled {
     z-index: 999;
 }
 
-dialog {
-
-    padding: 1rem 3rem;
+#dialog {
+    padding: 1rem;
     background: white;
-    max-width: 600px;
-    max-height: 700px;
-    padding-top: 2rem;
-    border-radius: 20px;
-    border: 0;
-    box-shadow: 0 5px 30px 0 rgba(0, 0, 0, 0.753);
+    max-width: 800px;
+
+    width: 100%;
+    max-height: 800px;
+    height: 100%;
+    border-radius: 10px;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.75);
     margin: auto;
+}
+
+.dialog-image-container {
+    max-width: 100%;
+    max-height: 600px;
+    overflow: auto;
+    border-radius: 10px;
+}
+
+.dialog-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 10px;
+
+}
+
+#dialog-title {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+#dialog-description {
+    margin-bottom: 1rem;
 }
 
 .x {
@@ -356,22 +441,17 @@ dialog {
     background: none;
     position: absolute;
     top: 15px;
-    right: 10px;
+    right: 15px;
+    font-size: 1.1rem;
     transition: ease filter, transform 0.3s;
     cursor: pointer;
     transform-origin: center;
-
 }
 
-dialog img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin: 0 auto;
-    border-radius: 10px;
+#dialog-description {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
-
-/* Cards Section */
 
 
 
@@ -383,8 +463,6 @@ dialog img {
     margin-top: 10px auto;
 
 }
-
-
 
 .card {
     width: 325px;
@@ -404,9 +482,16 @@ dialog img {
 }
 
 .card img {
-    width: 100%;
-    height: auto;
+    max-width: 600px;
+    max-height: 300px;
+    object-fit: cover;
+    object-position: center;
+}
 
+.image-container img {
+    width: 100%;
+    height: 100%;
+    text-align: center;
 }
 
 .card-content {
@@ -464,11 +549,15 @@ dialog img {
 .imgBx {
     flex: 1;
     overflow: hidden;
+    width: 600px;
+    height: 700px;
 }
 
 .imgBx img {
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-position: center;
+    object-fit: cover;
     display: block;
 }
 
@@ -476,9 +565,7 @@ dialog img {
     display: flex;
     flex: 1.5;
     padding: 20px;
-
     align-items: center;
-
 }
 
 .content {
@@ -611,8 +698,6 @@ dialog img {
 }
 
 
-
-
 .text-danger {
     color: red;
 }
@@ -621,12 +706,29 @@ dialog img {
 /* Cart container */
 
 .cart-container {
-    max-width: 800px;
-    margin: 0 auto;
+
+    display: flex;
+    max-width: 100%;
+    margin: 100px auto;
     padding: 20px;
-    background-color: rgba(255, 255, 255, 0.842);
+
     backdrop-filter: blur(10px);
     border-radius: 10px;
+    overflow: auto;
+}
+
+.cart-items {
+
+    flex: 1;
+    margin: 10px;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.842);
+    border-radius: 10px;
+}
+
+.cart-table {
+    max-height: 600px;
+    overflow: auto;
 }
 
 .table {
@@ -663,6 +765,17 @@ dialog img {
     background-color: #0056b3;
 }
 
+.checkout-form {
+    flex: 1;
+    margin: 10px;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.842);
+    border-radius: 10px;
+}
+
+
+
+/* Alerts */
 .alert {
     padding: 15px;
     margin-bottom: 20px;
@@ -682,24 +795,124 @@ dialog img {
     border-color: #ebccd1;
 }
 
-/* Alert Success */
+/* Book form */
+.book-container {
 
-.alert-success {
-    color: green;
+    max-width: 600px;
+    margin: 100px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.book-container h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.book-container .form-group {
+    margin-bottom: 15px;
+}
+
+.book-container .form-group input,
+.book-container .form-group textarea,
+.book-container .form-group select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.book-container .form-group input,
+.book-container .form-group textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.book-container .form-group textarea {
+    resize: vertical;
+}
+
+.book-container button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.book-container button:hover {
+    background-color: #0056b3;
+
+}
+
+/* All books  */
+
+.whole_container {
+    margin: 120px auto;
+    background-color: #b6b6b6;
+    text-align: center;
+    align-items: center;
+    max-width: 80%;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.all_books-container {
+    position: relative;
+    max-width: 100%;
+
+    font-family: Arial, sans-serif;
+
+
+
+    overflow: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table th,
+table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+table th {
+    background-color: #f2f2f2;
+}
+
+table tbody tr {
+    background-color: #f9f9f9;
 }
 
 
+/* Styling for logs*/
 
 .logs-list {
-   
+
     text-align: left;
     max-height: 400px;
     overflow-y: auto;
 }
 
 .log-item {
-  
-    margin-bottom: 10px; 
+
+    margin-bottom: 10px;
 }
 
 
@@ -858,14 +1071,18 @@ footer {
 
 @media (max-width: 768px) {
 
+    .cart-container,
     .footer-container,
     .show-card-container {
+
         flex-direction: column;
     }
 
     .imgBx {
         order: 1;
-
+        width: 100%;
+        height: auto;
+        max-width: 100%;
         margin-bottom: 20px;
 
     }
@@ -888,6 +1105,31 @@ footer {
     .hero-text h1 {
         font-size: 3rem;
     }
+
+    #dialog {
+        max-width: 100%;
+        width: 100%;
+        border-radius: 0;
+        max-height: 600px;
+
+    }
+
+    .dialog-image-container {
+        max-height: 450px;
+
+    }
+
+    #dialog-title {
+        font-size: 1.2rem;
+
+    }
+
+    .x {
+        top: 10px;
+        right: 10px;
+        font-size: .5rem;
+    }
+
 }
 
 @media (max-width: 678px) {
@@ -917,6 +1159,10 @@ footer {
 
     nav ul li a {
         font-size: 16px;
+    }
+
+    #dialog {
+        max-width: 100%;
     }
 }
 

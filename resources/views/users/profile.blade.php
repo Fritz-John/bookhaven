@@ -14,22 +14,22 @@
                     <tbody>
                         <tr>
                             <td>Name</td>
-                            <td>:</td>
+                           
                             <td>{{$users->name}}</td>
                         </tr>
                         <tr>
                             <td>Email</td>
-                            <td>:</td>
+                         
                             <td>{{$users->email}}</td>
                         </tr>
                         <tr>
                             <td>Address</td>
-                            <td>:</td>
+                          
                             <td>{{$users->address}}</td>
                         </tr>
                         <tr>
                             <td>Phone</td>
-                            <td>:</td>
+                         
                             <td>{{$users->phone}}</td>
                         </tr>
                     </tbody>
@@ -44,6 +44,8 @@
         <div class="card-profile">
             <h2 style="text-align: center">User Activity Logs</h2>
             <div class="logs-list">
+                @unless (count($logs) == 0)
+
                 @foreach ($logs as $log)
                 <div class="log-item">
                     @if ($log->user_id == auth()->id())
@@ -55,6 +57,10 @@
                     <hr>
                 </div>
                 @endforeach
+                @else
+                <h1>No user activity!</h1>
+                @endunless
+
             </div>
         </div>
 

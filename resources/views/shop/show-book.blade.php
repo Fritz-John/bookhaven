@@ -6,7 +6,7 @@
         <div class="show-card-container">
 
             <div class="imgBx">
-                <img src="https://placehold.co/600x400" alt="placeholder">
+                <img src="{{$book->image_path ? asset('storage/'.$book->image_path) : 'https://placehold.co/600x400'}} " alt="">
             </div>
             <div class="details">
 
@@ -37,5 +37,9 @@
             {{ session('success') }}
         </div>
         @endif
+        @if (session('error'))
+        <div class="alert alert-danger">{{ session('error') }}</div>
+        @endif
+      
     </form>
 </x-app>

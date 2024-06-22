@@ -3,26 +3,60 @@
 namespace App\Http\Controllers;
 
 use App\Models\Books;
+use App\Models\Categories;
+use App\Models\OrderDetails;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class BooksController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    protected $bookModel;
+
+    public function __construct()
+    {
+        $this->bookModel = new Books();
+    }
     public function index()
     {
-        return view('books.index',[
-            'books' => Books::all()->take(3)
+        $orderDetails = OrderDetails::with('book')->get();
+
+        $books =  Books::where('featured', 1)->get();
+
+        return view('books.index', [
+            'books' =>  $books
         ]);
         //
     }
 
-    public function show_all(Request $request){
+    public function all_books()
+    {
+        return view('books.show-all-books', [
+            'books' => Books::latest()->get()
+        ]);
+    }
 
-        return view('shop.index',[
+    public function show_all(Request $request)
+    {
+        return view('shop.index', [
             'books' => Books::latest()->filter(request(['category', 'search']))->get()
         ]);
+    }
+
+    public function remove_book($books_item)
+    {
+
+        $check_status = $this->bookModel->removeBook($books_item);
+
+        if ($check_status) {
+            return redirect()->route('all-books')->with('success', 'Removed book successfully!');
+        } else {
+            return redirect()->route('all-books')->with('error', 'An error has occured!');
+        }
+      
     }
 
     /**
@@ -30,6 +64,10 @@ class BooksController extends Controller
      */
     public function create()
     {
+
+        return view('books.store', [
+            'categories' => Categories::all()
+        ]);
         //
     }
 
@@ -38,6 +76,12 @@ class BooksController extends Controller
      */
     public function store(Request $request)
     {
+
+        $this->bookModel->store_book($request);
+
+       
+        return redirect()->route('create-book')->with('success', 'Added new book');
+
         //
     }
 
