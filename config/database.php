@@ -39,7 +39,7 @@ return [
             'username' => env('MONGO_DB_USERNAME'),
             'password' => env('MONGO_DB_PASSWORD'),
             'options' =>[
-                'database' => 'activitylogs'
+                'database' => 'admin'
             ]
         ],
 
