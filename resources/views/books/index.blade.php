@@ -1,4 +1,4 @@
-<x-app>
+<x-app title='Home'>
     <div style="margin-top:100px">
         <x-flash-message />
     </div>

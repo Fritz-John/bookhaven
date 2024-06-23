@@ -1,4 +1,4 @@
-<x-app>
+<x-app title="Edit Profile">
     <div class="main">
         <h2>Editing Profile</h2>
 

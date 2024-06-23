@@ -1,4 +1,4 @@
-<x-app>
+<x-app title="Profile">
     <div class="main">
         <x-flash-message />
         <h2>Profile</h2>

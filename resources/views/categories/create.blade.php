@@ -1,4 +1,4 @@
-<x-app>
+<x-app title='Add Category'>
     <div class="book-container">
 
         <h1>Add a New Category</h1>

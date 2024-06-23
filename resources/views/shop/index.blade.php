@@ -1,4 +1,4 @@
-<x-app>
+<x-app title="Shop">
 
     @include('partials.search')
     @if (request()->has('search') && trim(request('search')) !== '')

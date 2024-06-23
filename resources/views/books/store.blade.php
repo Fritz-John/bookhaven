@@ -1,4 +1,4 @@
-<x-app>
+<x-app title='Add Book'>
    
     <div class="book-container">
         <x-flash-message />

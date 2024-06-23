@@ -1,4 +1,4 @@
-<x-app>
+<x-app title='All Books'>
 
     <div class="whole_container">
         <h1>All Books</h1>

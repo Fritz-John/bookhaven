@@ -7,6 +7,6 @@
         integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-   
-    <title>Document</title>
+    @props(['title'])
+    <title>{{ (isset($title) ? $title :  'Book Haven')  }}</title>
 </head>

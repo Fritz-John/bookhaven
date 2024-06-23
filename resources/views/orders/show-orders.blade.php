@@ -1,4 +1,4 @@
-<x-app>
+<x-app  :title="'Showing Order # ' . $showDetail->id"  >
 
     @php
     $total_amount = 0;

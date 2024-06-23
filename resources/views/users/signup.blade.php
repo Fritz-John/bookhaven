@@ -1,9 +1,9 @@
-<x-app>
+<x-app title="Sign up">
 
 
     <div class="container-user">
         <div class="form">
-            <header>Signup</header>
+            <header>Sign-up</header>
             <form action="{{route('create')}}" method="POST">
                 @csrf
 

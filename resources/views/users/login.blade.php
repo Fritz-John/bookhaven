@@ -1,4 +1,4 @@
-<x-app>
+<x-app title="Login">
 
 
 

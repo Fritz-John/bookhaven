@@ -1,4 +1,4 @@
-<x-app>
+<x-app title='All Categories'>
 
     <div class="whole_container">
         <h1>All Categories</h1>
