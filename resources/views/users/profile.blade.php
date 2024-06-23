@@ -1,10 +1,6 @@
 <x-app>
     <div class="main">
-        @if(session('success'))
-        <div class=" alert-success">
-            {{ session('success') }}
-        </div>
-        @endif
+        <x-flash-message />
         <h2>Profile</h2>
         <div class="card-profile">
 

@@ -34,7 +34,7 @@ class UserController extends Controller
     {
         $this->userModel->storeUser($request);
 
-        return redirect()->route('login')->with('message', 'User Created');
+        return redirect()->route('login')->with('success', 'Successfully Created account!');
     }
 
     public function logout(Request $request)
@@ -42,7 +42,7 @@ class UserController extends Controller
 
         $this->userModel->logout($request);
 
-        return redirect('/')->with('message', 'You have beed logout');
+        return redirect()->route('login')->with('success', 'Successfully logged out!');
     }
 
     public function authenticate(Request $request)
@@ -50,7 +50,7 @@ class UserController extends Controller
         $check_state = $this->userModel->login($request);
 
         if($check_state){
-            return redirect('/')->with('message', 'User Login');
+            return redirect('/')->with('success', 'Successfully logged in!');
           
         }else{
             return redirect()->route('login')->withErrors(['email' => 'Invalid Credentials'])->onlyInput('email');

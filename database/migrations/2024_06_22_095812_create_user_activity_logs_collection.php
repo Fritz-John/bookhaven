@@ -13,7 +13,7 @@ return new class extends Migration
     public function up()
     {
         Schema::connection('mongodb')->create('user_activity_logs', function (Blueprint $collection) {
-            $collection->index('user_id');
+            $collection->index('user_id')->constrained('users')->onDelete('cascade');
             $collection->index('activity_type');
             $collection->index('details');
             // Add more indexes or schema modifications as needed

@@ -2,13 +2,9 @@
 
     <div class="whole_container">
         <h1>All Books</h1>
-        @if (session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
+        
+        <x-flash-message />
 
-        @if (session('error'))
-        <div class="alert alert-danger">{{ session('error') }}</div>
-        @endif
         <div class="all_books-container">
 
             <table>
@@ -16,13 +12,13 @@
                     <tr>
                         <th>Book ID</th>
                         <th>Title</th>
-                        <th>Description</th>
-                        <th>Author</th>
+                        <th style="width: 350px;">Description</th>
+                        <th style="width: 250px;">Author</th>
                         <th>Category</th>
-                        <th>Price</th>
-                        <th>Stock Quantity</th>
-                        <th>Featured</th>
-                        <th>Action</th>
+                        <th style="width: 200px;">Price</th>
+                        <th style="width: 250px;" >Stock Quantity</th>
+                        <th >Featured</th>
+                        <th style="width: 250px;">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -30,15 +26,15 @@
                     <tr>
 
                         <td>{{ $book->id }}</td>
-                        <td>{{ $book->title }}</td>
-                        <td>{{ $book->description }}</td>
-                        <td>{{ $book->author }}</td>
+                        <td >{{ $book->title }}</td>
+                        <td >{{ $book->description }}</td>
+                        <td >{{ $book->author }}</td>
                         <td>{{ $book->categories->name }}</td>
-                        <td>Php. {{ $book->price }}</td>
-                        <td>{{ $book->stock_quantity }}</td>
-                        <td>{{ ($book->featured) ? 'Yes' : 'No' }}</td>
+                        <td >₱ {{number_format( $book->price,'2')}}</td>
+                        <td >{{ $book->stock_quantity }}</td>
+                        <td >{{ ($book->featured) ? 'Yes' : 'No' }}</td>
 
-                        <td>
+                        <td >
                             <form action="{{ route('remove-book',$book)}}" method="POST">
                                 @csrf
                                 @method('DELETE')

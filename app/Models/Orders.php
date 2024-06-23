@@ -29,15 +29,19 @@ class Orders extends Model
         if ($quantity > $books->stock_quantity) {
             return false;
         } else {
+
             if ($orderDetail) {
+
                 $cartQuantityCheck = OrderDetails::where('books_id', $books->id)->first();
-                if ($books->stock_quantity > $cartQuantityCheck->quantity) {
-                    $orderDetail->quantity += $quantity;
-                    $orderDetail->save();
-                } else {
+
+                if ($books->stock_quantity <= $cartQuantityCheck->quantity || $quantity + $cartQuantityCheck->quantity > $books->stock_quantity) {
                     return false;
                 }
+
+                $orderDetail->quantity += $quantity;
+                $orderDetail->save();
             } else {
+
                 $orderDetail = new OrderDetails();
                 $orderDetail->orders_id = $order->id;
                 $orderDetail->books_id = $books->id;

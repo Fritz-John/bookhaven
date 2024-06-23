@@ -641,7 +641,7 @@ button:disabled {
     font-size: 1rem;
     margin-bottom: 0.5rem;
 }
-
+.form-group select,
 .form-group input,
 .form-group textarea {
     width: 100%;

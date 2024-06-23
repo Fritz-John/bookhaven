@@ -5,6 +5,7 @@
 
 
         <h1>All Orders</h1>
+        <x-flash-message/>
         @unless (count($orders) == 0)
 
         @foreach ($orders as $order)

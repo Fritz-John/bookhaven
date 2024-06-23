@@ -5,6 +5,7 @@
     <div class="container-user">
         <div class="form">
             <header>Login</header>
+            <x-flash-message />
             <form action="{{route('authenticate')}}" method="POST">
                 @csrf
                 <div class="form-group">
@@ -18,7 +19,7 @@
                     <label for="username">Password</label>
                     <input type="password" id="password" name="password" placeholder="Enter your password">
                     @error('password')
-                    <p class="text-danger">{{ $message }}</p> 
+                    <p class="text-danger">{{ $message }}</p>
                     @enderror
                 </div>
 

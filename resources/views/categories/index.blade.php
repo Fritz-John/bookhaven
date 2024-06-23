@@ -2,13 +2,7 @@
 
     <div class="whole_container">
         <h1>All Categories</h1>
-        @if (session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
-
-        @if (session('error'))
-        <div class="alert alert-danger">{{ session('error') }}</div>
-        @endif
+        <x-flash-message />
         <div class="all_books-container">
 
             <table>

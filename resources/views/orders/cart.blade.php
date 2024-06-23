@@ -2,11 +2,12 @@
 
 
     <div class="cart-container">
-        @if (count($items) > 0)
-
         <div class="cart-items">
+            <x-flash-message />
             <h1>Your Cart</h1>
+            @if (count($items) > 0)
             <div class="cart-table">
+
                 <table class="table" style="background-color:white">
                     <thead>
                         <tr>
@@ -36,18 +37,23 @@
                     </tbody>
                 </table>
             </div>
+            <h3 style="margin-bottom:20px">Total Amount: ₱ {{$total_amount}}</h3>
+            @else
+            <div style="padding: 50px; text-align:center;">
+                <h2>Your cart is empty.</h2>
+            </div>
+            @endif
 
-            <h3 style="margin-bottom:20px">Total Amount: {{ $total_amount }}</h3>
+
         </div>
         <div class="checkout-form">
             <h1>Checkout Details</h1>
             <form action="{{ route('checkout') }}" method="POST">
                 @csrf
-
-
                 <div class="form-group">
+                   
                     <label for="name">Name</label>
-                    <input type="text" id="name" name="name" class="form-control" value="{{ $user_detail->name}}"
+                    <input type="text" id="name" name="name" class="form-control" value="{{$user_detail->name}}"
                         readonly>
                 </div>
 
@@ -76,22 +82,16 @@
                         <option value="cod">COD</option>
                     </select>
                 </div>
-
+                @if (count($items) > 0)
                 <button type="submit" class="btn btn-primary">Checkout</button>
+                @endif
+
+
             </form>
         </div>
 
-        @else
-        <p>Your cart is empty.</p>
-        @endif
 
 
     </div>
-    @if (session('success'))
-    <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
 
-    @if (session('error'))
-    <div class="alert alert-danger">{{ session('error') }}</div>
-    @endif
 </x-app>
