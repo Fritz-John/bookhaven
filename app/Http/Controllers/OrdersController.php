@@ -30,13 +30,11 @@ class OrdersController extends Controller
 
         $check_status = $this->orderModel->addToCart($request->book_id, $request->quantity);
 
-        if($check_status){
-            return redirect()->route("show", $request->book_id)->with('success', 'Order placed successfully!');
-        }else{
+        if ($check_status) {
+            return redirect()->route("show", $request->book_id)->with('success', 'Added to cart successfully!');
+        } else {
             return redirect()->route("show", $request->book_id)->with('error', 'Quantity should not be higher than the stocks!');
         }
-
-       
     }
 
     public function remove_item_cart(OrderDetails $cart_item)
@@ -49,23 +47,32 @@ class OrdersController extends Controller
     public function show_cart()
     {
 
+
         $cart = Orders::where('user_id', auth()->id())->where('status', 'cart')->first();
 
-        if (!$cart) {
-            return view('orders.cart', ['items' => []]);
+        $items = [];
+        $total_amount = 0;
+
+        if ($cart == null) {
+            $items = [];
+            $total_amount = 0;
+        } else {
+            $items = $cart->orders()->with('book')->get();
+            $total_amount = $cart->total_amount;
         }
-        
+
         return view('orders.cart', [
-            'items' => $cart->orders()->with('book')->get(),
-            'total_amount' => $cart->total_amount,
-            'user_detail' =>  auth()->user()
+            'user_detail' =>  auth()->user(),
+            'items' =>  $items,
+            'total_amount' =>   $total_amount,
+
         ]);
     }
 
     public function checkout(Request $request)
     {
-        $this->orderModel->checkOut($request);  
+        $this->orderModel->checkOut($request);
 
-        return redirect()->route('cart')->with('success', 'Order placed successfully!');
+        return redirect()->route('show-orders')->with('success', 'Order placed successfully!');
     }
 }

@@ -1,11 +1,18 @@
-<x-app>
+<x-app title='Home'>
+    <div style="margin-top:100px">
+        <x-flash-message />
+    </div>
+
     <section class="masthead">
+
         <img src="{{ asset('assets/images/book-cover.png') }}" alt="">
         <div class="hero-text">
             <h1>Perfect place to know what you dont know</h1>
             <p>Read all new knowledge</p>
             <button onclick="window.location.href='{{ route('shop') }}'">Check our Books!</button>
         </div>
+
+
     </section>
 
 
@@ -40,7 +47,7 @@
         @else
 
         <h1>No featured books found!</h1>
-        
+
         @endunless
 
     </section>

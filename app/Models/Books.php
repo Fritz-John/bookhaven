@@ -78,8 +78,8 @@ class Books extends Model
             'title' => 'required',
             'description' => 'required',
             'author' => 'required',
-            'price' => 'required|numeric',
-            'stock_quantity' => 'required|numeric',
+            'price' => 'required|numeric|min:1|digits_between:1,5',
+            'stock_quantity' => 'required|min:1|numeric|digits_between:1,5',
             'categories' => 'required',
             'featured' => 'required'
         ]);

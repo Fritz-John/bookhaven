@@ -18,3 +18,4 @@
     </div>
 </footer>
 <script src="{{ asset('assets/js/script.js')}}"></script>
+<script src="//unpkg.com/alpinejs" defer></script>

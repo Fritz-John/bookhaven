@@ -1,4 +1,4 @@
-<x-app>
+<x-app title="Shop">
 
     @include('partials.search')
     @if (request()->has('search') && trim(request('search')) !== '')
@@ -18,12 +18,12 @@
 
             <div class="card" onclick="window.location.href='{{ route('show',$book->id)}}'">
                 <div class="image-container">
-                    <img src="{{$book->image_path ? asset('storage/'.$book->image_path) : 'https://placehold.co/600x400'}} "
+                    <img src="{{$book->image_path ? asset('storage/'.$book->image_path) : 'https://placehold.co/600x500'}} "
                         alt="">
                 </div>
 
                 <div class="card-content">
-                    <h4>{{$book->title}}</h4>
+                    <h4>{{ substr($book->title, 0, 20) }}{{ strlen($book->title) > 20 ? "..." : "" }}</h4>
                     <p>{{ substr($book->description, 0, 20) }}{{ strlen($book->description) > 20 ? "..." : "" }}</p>
                     <p> <b> by: {{$book->author}}</b></p>
                     <a class="category-pill" href="/shop?category={{$book->categories->name}}"
